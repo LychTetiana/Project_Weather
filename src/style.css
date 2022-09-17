@@ -1,0 +1,65 @@
+body {
+  background-image: url("https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000");
+  color: blueviolet;
+}
+.sun-icon {
+  width: 100px;
+}
+
+.date-today {
+  text-align: left;
+}
+.time {
+  text-align: left;
+  font-weight: bold;
+}
+
+.temp {
+  color: blueviolet;
+  font-weight: bold;
+}
+
+.bg-white {
+  color: rgb(112, 35, 184);
+  font-weight: bold;
+  text-shadow: 15px;
+}
+
+.date-today {
+  color: blueviolet;
+  font-weight: bold;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 16px;
+}
+
+.col {
+  background-color: rgb(231, 209, 251);
+}
+.search-button {
+  background-color: rgba(182, 130, 230, 0.499);
+  color: white;
+}
+
+a,
+.celsius-fahrenheit {
+   font-weight: normal;
+  font-size: 15px;
+  color: blueviolet;
+}
+
+.advisory {
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.pt-3 {
+  background-image: url("https://img.freepik.com/free-vector/white-abstract-background_23-2148810113.jpg?w=2000");
+}
+.city-name,
+.temperature {
+  font-family: fantasy;
+}
+
+.small, small {
+    padding: 300px;
+}
