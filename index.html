@@ -53,29 +53,28 @@
           </div>
 
           <h1 class="city-name" id="city" style="font-size: 50px;"></h1>
-          <img src="images/sun.svg" alt="sunny" class="sun-icon" />
+          <img src="images/sun.svg" alt="sunny" class="sun-icon" id="icon"/>
           <br />
 
-          <span id="temperature" class="temperature" style="font-size: 15px;">
+          <span id="temperature" class="currentTemp" style="font-size: 15px;">
           </span>
           <span class="celsius-fahrenheit">
             <a href="#" id="celsius-link">°C</a> /
             <a href="#" id="fahrenheit-link">°F</a>
           </span>
 
-          <div class="forecast" id="forecast">
-            Sunny
-            <p class="day-night">
-              <strong>Day:</strong> 25˚C <strong>Night:</strong>19˚C
-            </p>
-          </div>
+          <div class="description" id="description">Clear</div>
+                  </div>
 
-          <div class="advisory">
-            Precipitation: 71%
-            <br />
-            Wind: 8 km/h
-          </div>
-        </div>
+            <div class="humidity">
+                  <div class="now" >  Humidity:
+                     <span id="humidity">51</span><strong> %</strong>
+                  </div>
+                  <div class="now"> Wind: 
+                   <span id="wind">5</span><strong> mph</strong>
+                  </div>
+              
+                   </div>
         <div class="card this-week shadow-sm m-3" style="width: 38rem;">
           <div class="card-body">
             <div class="container text-center">

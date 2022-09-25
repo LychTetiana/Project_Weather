@@ -1,4 +1,4 @@
-//Feature #1
+
 function formatDate(date) {
   let days = [
     "Sunday",
@@ -51,7 +51,6 @@ let noww = new Date();
 let timeElement = document.querySelector("#time");
 timeElement.innerHTML = formatTime(noww);
 
-//Feature #2
 function search(event) {
   event.preventDefault();
 
@@ -64,30 +63,36 @@ function search(event) {
 let form = document.querySelector("#search-form");
 form.addEventListener("submit", search);
 
-//Feature #3
-let celsius = document.querySelector("#celsius-link");
-celsius.addEventListener("click", convertToCelsius);
-
-let fahrenheit = document.querySelector("#fahrenheit-link");
-fahrenheit.addEventListener("click", convertToFahrenheit);
-
-function convertToCelsius(event) {
+//Cel to Fahr
+function celChange(event) {
   event.preventDefault();
-  let currentTemperature = document.querySelector("#temperature");
-  currentTemperature.innerHTML = "25";
+  cel.classList.add("active");
+  fah.classList.remove("active");
+  let currentTemp = document.querySelector("#temperature");
+  currentTemp.innerHTML = Math.round(celsiusCurrent);
 }
 
-function convertToFahrenheit(event) {
+function fahrtChange(event) {
   event.preventDefault();
-  let currentTemperature = document.querySelector("#temperature");
-  currentTemperature.innerHTML = "77";
+  let currentTemp = document.querySelector("#temperature");
+  cel.classList.remove("active");
+  fah.classList.add("active");
+  let fahrenheitForm = (celsiusCurrent * 9 / 5) + 32;
+  currentTemp.innerHTML = Math.round(fahrenheitForm);
 }
+let celsiusCurrent = null;
+
+let cel = document.querySelector("#celsius-link");
+let fah = document.querySelector("#fahrenheit-link");
+cel.addEventListener("click", celChange);
+fah.addEventListener("click", fahrtChange);
+
 
 //HW_W5
 
 function searchCity(city) {
   let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
   axios.get(apiUrl).then(currentTemp);
 }
 
@@ -95,6 +100,7 @@ function showWeather(response) {
   let h1 = document.querySelector("h1");
   let temperature = Math.round(response.data.main.temp);
   h1.innerHTML = `${response.data.name} ${temperature}°`;
+  celsiusCurrent = response.data.main.temp;
 }
 
 function retrievePosition(position) {
@@ -131,3 +137,64 @@ function getCurrentPosition() {
 
 let button = document.querySelector("#currentid");
 button.addEventListener("click", getCurrentPosition);
+
+// Week 7
+
+function currentTemp(response) {
+  let temperatureCurrent = document.querySelector("#temperature");
+  let cityCurrent = document.querySelector("#city");
+  let descriptionCurrent = document.querySelector("#description");
+  let iconCurrent = document.querySelector("#icon");
+
+  celsiusCurrent = response.data.main.temp;
+
+  temperatureCurrent.innerHTML = Math.round(response.data.main.temp);
+  cityCurrent.innerHTML = response.data.name;
+  descriptionCurrent.innerHTML = response.data.weather[0].description;
+  iconCurrent.setAttribute("src", `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
+
+  document.querySelector("#humidity").innerHTML = response.data.main.humidity;
+  document.querySelector("#wind").innerHTML = Math.round(
+    response.data.wind.speed
+  );
+}
+
+let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
+let city = "Lviv";
+let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+axios.get(apiUrl).then(currentTemp);
+
+
+function searchCity(city) {
+  let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
+let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(currentTemp);
+}
+
+function retrievePosition(position) {
+  let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
+  let lat = position.coords.latitude;
+  let lon = position.coords.longitude;
+  let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+  axios.get(url).then(showWeather);
+}
+
+navigator.geolocation.getCurrentPosition(retrievePosition);
+
+
+let searchButton = document.querySelector("#button");
+searchButton.addEventListener("click", searchCity);
+
+
+function nowLocation(event) {
+  event.preventDefault();
+  navigator.geolocation.getCurrentPosition(retrievePosition);
+}
+
+let currentPosition = document.querySelector("#current-location");
+currentPosition.addEventListener("click", nowLocation);
+
+
+
+
