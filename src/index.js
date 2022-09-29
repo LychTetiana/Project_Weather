@@ -87,7 +87,6 @@ let fah = document.querySelector("#fahrenheit-link");
 cel.addEventListener("click", celChange);
 fah.addEventListener("click", fahrtChange);
 
-
 //HW_W5
 
 function searchCity(city) {
@@ -165,7 +164,6 @@ let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${
 
 axios.get(apiUrl).then(currentTemp);
 
-
 function searchCity(city) {
   let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
 let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
@@ -181,11 +179,8 @@ function retrievePosition(position) {
 }
 
 navigator.geolocation.getCurrentPosition(retrievePosition);
-
-
 let searchButton = document.querySelector("#button");
 searchButton.addEventListener("click", searchCity);
-
 
 function nowLocation(event) {
   event.preventDefault();
@@ -196,5 +191,36 @@ let currentPosition = document.querySelector("#current-location");
 currentPosition.addEventListener("click", nowLocation);
 
 
+//HW4-Week 8
 
+function displayForecast() {
+  let forecastElement = document.querySelector("#forecast");
 
+  let days = ["Thu", "Fri", "Sat", "Sun"];
+
+  let forecastHTML = `<div class="row">`;
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `
+      <div class="col2">
+        <div class="weather-forecast-date">${day}</div>
+        <img
+          src="images/drizzle.svg"
+          alt="drizzle"
+          class="drizzle-icon"
+        />
+        <div class="weather-forecast-temperatures">
+          <span class="weather-forecast-temperature-max"> 18° </span>
+          <span class="weather-forecast-temperature-min"> 12° </span>
+        </div>
+      </div>
+  `;
+  });
+
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+  console.log(forecastHTML);
+}
+
+displayForecast();

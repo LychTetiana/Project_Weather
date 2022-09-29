@@ -34,7 +34,9 @@ body {
 
 .col {
   background-color: rgb(231, 209, 251);
+
 }
+
 .search-button {
   background-color: rgba(182, 130, 230, 0.499);
   color: white;
@@ -55,6 +57,12 @@ a,
 .pt-3 {
   background-image: url("https://img.freepik.com/free-vector/white-abstract-background_23-2148810113.jpg?w=2000");
 }
+
+.col2{
+  background-color: white; 
+  border-radius: 5px;
+ }
+
 .city-name,
 .temperature {
   font-family: fantasy;
@@ -62,4 +70,8 @@ a,
 
 .small, small {
     padding: 300px;
+}
+
+.weather-forecast-temperature-min {
+  opacity: 0.5;
 }
