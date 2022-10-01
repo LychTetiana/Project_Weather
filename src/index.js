@@ -179,16 +179,14 @@ function retrievePosition(position) {
 }
 
 navigator.geolocation.getCurrentPosition(retrievePosition);
-let searchButton = document.querySelector("#button");
-searchButton.addEventListener("click", searchCity);
+
 
 function nowLocation(event) {
   event.preventDefault();
   navigator.geolocation.getCurrentPosition(retrievePosition);
 }
 
-let currentPosition = document.querySelector("#current-location");
-currentPosition.addEventListener("click", nowLocation);
+
 
 
 //HW4-Week 8
@@ -196,24 +194,25 @@ currentPosition.addEventListener("click", nowLocation);
 function displayForecast() {
   let forecastElement = document.querySelector("#forecast");
 
-  let days = ["Thu", "Fri", "Sat", "Sun"];
+  let days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun",];
 
   let forecastHTML = `<div class="row">`;
   days.forEach(function (day) {
     forecastHTML =
       forecastHTML +
       `
-      <div class="col2">
-        <div class="weather-forecast-date">${day}</div>
+      <div class="col bg-white border rounded shadow-sm">
+        <div class="weather-forecast-date">${day}
         <img
           src="images/drizzle.svg"
           alt="drizzle"
-          class="drizzle-icon"
+          width="50"
         />
-        <div class="weather-forecast-temperatures">
+          <div class="weather-forecast-temperatures">
           <span class="weather-forecast-temperature-max"> 18° </span>
           <span class="weather-forecast-temperature-min"> 12° </span>
         </div>
+      </div>
       </div>
   `;
   });
