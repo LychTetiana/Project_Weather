@@ -1,5 +1,6 @@
 
 function formatDate(date) {
+  
   let days = [
     "Sunday",
     "Monday",
@@ -36,7 +37,16 @@ let now = new Date();
 let dateElement = document.querySelector("#date-today");
 dateElement.innerHTML = formatDate(now);
 
-function formatTime(date) {
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return days[day];
+}
+
+function formatTime(timestamp) {
+  let date = new Date(timestamp);
   let hours = date.getHours();
   if (hours < 10) {
     hours = `0${hours}`;
@@ -139,11 +149,20 @@ button.addEventListener("click", getCurrentPosition);
 
 // Week 7
 
+function getForecast(coordinates) {
+  console.log(coordinates);
+  let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
+}
+
 function currentTemp(response) {
   let temperatureCurrent = document.querySelector("#temperature");
   let cityCurrent = document.querySelector("#city");
   let descriptionCurrent = document.querySelector("#description");
   let iconCurrent = document.querySelector("#icon");
+  let dateElement = document.querySelector("#date");
+  
 
   celsiusCurrent = response.data.main.temp;
 
@@ -151,11 +170,14 @@ function currentTemp(response) {
   cityCurrent.innerHTML = response.data.name;
   descriptionCurrent.innerHTML = response.data.weather[0].description;
   iconCurrent.setAttribute("src", `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
-
+  dateElement.innerHTML = formatDate(response.data.dt * 1000);
+  
+  iconCurrent.setAttribute("alt", response.data.weather[0].description);
+  
   document.querySelector("#humidity").innerHTML = response.data.main.humidity;
-  document.querySelector("#wind").innerHTML = Math.round(
-    response.data.wind.speed
-  );
+  document.querySelector("#wind").innerHTML = Math.round(response.data.wind.speed);
+
+  getForecast(response.data.coord);
 }
 
 let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
@@ -186,40 +208,45 @@ function nowLocation(event) {
   navigator.geolocation.getCurrentPosition(retrievePosition);
 }
 
+//Week 8
 
-
-
-//HW4-Week 8
-
-function displayForecast() {
+function displayForecast(response) {
+  let forecast=response.date.daily;
+  
   let forecastElement = document.querySelector("#forecast");
 
-  let days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun",];
-
   let forecastHTML = `<div class="row">`;
-  days.forEach(function (day) {
+  forecast.forEach(function (forecastDay, index) {
+    if (index < 6){
     forecastHTML =
       forecastHTML +
       `
       <div class="col bg-white border rounded shadow-sm">
-        <div class="weather-forecast-date">${day}
+        <div class="weather-forecast-date">${formatDay(forecastDay.dt)}
         <img
-          src="images/drizzle.svg"
-          alt="drizzle"
+          src="http://openweathermap.org/img/wn/${
+            forecastDay.weather[0].icon
+          }@2x.png"
+          alt=""
           width="50"
         />
           <div class="weather-forecast-temperatures">
-          <span class="weather-forecast-temperature-max"> 18° </span>
-          <span class="weather-forecast-temperature-min"> 12° </span>
+          <span class="weather-forecast-temperature-max"> ${Math.round(
+            forecastDay.temp.max
+          )}° </span>
+          <span class="weather-forecast-temperature-min"> ${Math.round(
+            forecastDay.temp.min
+          )}° </span>
         </div>
       </div>
       </div>
   `;
+}
   });
 
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
-  console.log(forecastHTML);
+  
 }
 
-displayForecast();
+
