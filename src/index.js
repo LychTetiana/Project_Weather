@@ -156,9 +156,11 @@ function getForecast(coordinates) {
   axios.get(apiUrl).then(displayForecast);
 }
 
-function currentTemp(response) {
+function displayTemperature(response) {
   let temperatureCurrent = document.querySelector("#temperature");
   let cityCurrent = document.querySelector("#city");
+  let humidityElement = document.querySelector("#humidity");
+  let windElement = document.querySelector("#wind");
   let descriptionCurrent = document.querySelector("#description");
   let iconCurrent = document.querySelector("#icon");
   let dateElement = document.querySelector("#date");
@@ -168,6 +170,8 @@ function currentTemp(response) {
 
   temperatureCurrent.innerHTML = Math.round(response.data.main.temp);
   cityCurrent.innerHTML = response.data.name;
+  humidityElement.innerHTML = response.data.main.humidity;
+  windElement.innerHTML = Math.round(response.data.wind.speed);
   descriptionCurrent.innerHTML = response.data.weather[0].description;
   iconCurrent.setAttribute("src", `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
   dateElement.innerHTML = formatDate(response.data.dt * 1000);
@@ -184,12 +188,12 @@ let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
 let city = "Lviv";
 let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-axios.get(apiUrl).then(currentTemp);
+axios.get(apiUrl).then(displayTemperature);
 
 function searchCity(city) {
   let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
 let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-  axios.get(apiUrl).then(currentTemp);
+  axios.get(apiUrl).then(displayTemperature);
 }
 
 function retrievePosition(position) {
@@ -211,26 +215,26 @@ function nowLocation(event) {
 //Week 8
 
 function displayForecast(response) {
-  let forecast=response.date.daily;
-  
+  let forecast = response.data.daily;
+  console.log(forecast);
   let forecastElement = document.querySelector("#forecast");
 
-  let forecastHTML = `<div class="row">`;
+  let forecastHTML = `<div class="row>`;
   forecast.forEach(function (forecastDay, index) {
-    if (index < 6){
-    forecastHTML =
-      forecastHTML +
-      `
+    if (index < 6) {
+      forecastHTML =
+        forecastHTML +
+        `
       <div class="col bg-white border rounded shadow-sm">
-        <div class="weather-forecast-date">${formatDay(forecastDay.dt)}
+        <div class="weather-forecast-date">${formatDay(forecastDay.dt)}</div>
         <img
           src="http://openweathermap.org/img/wn/${
             forecastDay.weather[0].icon
           }@2x.png"
           alt=""
-          width="50"
+          width="42"
         />
-          <div class="weather-forecast-temperatures">
+        <div class="weather-forecast-temperatures">
           <span class="weather-forecast-temperature-max"> ${Math.round(
             forecastDay.temp.max
           )}° </span>
@@ -239,14 +243,11 @@ function displayForecast(response) {
           )}° </span>
         </div>
       </div>
-      </div>
   `;
-}
+    }
   });
 
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
-  
 }
-
-
+displayForecast();
