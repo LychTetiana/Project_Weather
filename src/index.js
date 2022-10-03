@@ -45,6 +45,7 @@ function formatDay(timestamp) {
   return days[day];
 }
 
+
 function formatTime(timestamp) {
   let date = new Date(timestamp);
   let hours = date.getHours();
@@ -163,8 +164,7 @@ function displayTemperature(response) {
   let windElement = document.querySelector("#wind");
   let descriptionCurrent = document.querySelector("#description");
   let iconCurrent = document.querySelector("#icon");
-  let dateElement = document.querySelector("#date");
-  
+  let dateElement = document.querySelector("#date-today"); 
 
   celsiusCurrent = response.data.main.temp;
 
@@ -174,8 +174,7 @@ function displayTemperature(response) {
   windElement.innerHTML = Math.round(response.data.wind.speed);
   descriptionCurrent.innerHTML = response.data.weather[0].description;
   iconCurrent.setAttribute("src", `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
-  dateElement.innerHTML = formatDate(response.data.dt * 1000);
-  
+  dateElement.innerHTML = formatDate(new Date(response.data.dt * 1000));
   iconCurrent.setAttribute("alt", response.data.weather[0].description);
   
   document.querySelector("#humidity").innerHTML = response.data.main.humidity;
@@ -216,10 +215,10 @@ function nowLocation(event) {
 
 function displayForecast(response) {
   let forecast = response.data.daily;
-  console.log(forecast);
+
   let forecastElement = document.querySelector("#forecast");
 
-  let forecastHTML = `<div class="row>`;
+  let forecastHTML = `<div class="row">`;
   forecast.forEach(function (forecastDay, index) {
     if (index < 6) {
       forecastHTML =
