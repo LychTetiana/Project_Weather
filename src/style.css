@@ -71,9 +71,11 @@ a,
 }
 
 .col{
+margin: 5px 5px;
  color: blueviolet;
 }
 .row{
-  margin: auto;
+  margin: 15px  15px 15px 15px;
   border: 0px;
   }
+ 
